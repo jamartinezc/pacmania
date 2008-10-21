@@ -236,13 +236,13 @@ public class FieldsNmapPacmanAgentProgram implements AgentProgram{
         //sumarle o restarle cierta cantidad a la correspondiente componente
         Vector2D outcomeVector = new Vector2D();
         float comparation;
-        float mod = force.getModule();
+        float mod = force.getModule()/2;
         if(Math.abs(direction) == 1){
             comparation = force.getY();
             outcomeVector.setY(comparation - direction*mod);
         }else if(Math.abs(direction) == 2){
             comparation = force.getX();
-            outcomeVector.setX(comparation + direction/2*mod);
+            outcomeVector.setX(comparation - direction/2*mod);
         }
         return outcomeVector.getModule();
     }
