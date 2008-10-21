@@ -175,7 +175,7 @@ public class MsPacmanMap {
      *      <li>1 if there is a wall             </li>
      *      <li>2 if there is a warp space       </li>
      *      <li>3 if there is a power pill       </li>
-     *      <li>4 if there is a ghost jaill space</li>
+     *      <li>4 if there is a ghost jail space</li>
      * </ul>
      * @param x the x coordinate of the specified tile
      * @param y the y coordinate of the specified tile
@@ -277,10 +277,12 @@ public class MsPacmanMap {
         surroundings[2] = mazeMap[left.getY()+1][left.getX()+1 - 1];
         surroundings[3] = mazeMap[right.getY()+1][right.getX()+1 + 1];
         
-        /*System.out.println(mazeMap[yTileCenter-1][xTileCenter-1]+""+mazeMap[yTile-1][xTileCenter]+""+mazeMap[yTileCenter-1][xTileCenter+1]+""+mazeMap[yTileCenter-1][xTileCenter+2]);
+        int yTileCenter = tileCenter.getY()+1;
+        int xTileCenter = tileCenter.getX()+1;
+        System.out.println(mazeMap[yTileCenter-1][xTileCenter-1]+""+mazeMap[yTileCenter-1][xTileCenter]+""+mazeMap[yTileCenter-1][xTileCenter+1]+""+mazeMap[yTileCenter-1][xTileCenter+2]);
         System.out.println(mazeMap[yTileCenter][xTileCenter-1]+""+mazeMap[yTileCenter][xTileCenter]+""+mazeMap[yTileCenter][xTileCenter+1]+""+mazeMap[yTileCenter][xTileCenter+2]);
-        System.out.println(mazeMap[yTileCenter+1][xTileCenter-1]+""+mazeMap[yTileCenter+1][xTileCenter]+""+mazeMap[yTileCenter+1][xTile+1]+""+mazeMap[yTileCenter+1][xTileCenter+2]);
-        System.out.println(mazeMap[yTileCenter+2][xTileCenter-1]+""+mazeMap[yTileCenter+2][xTileCenter]+""+mazeMap[yTileCenter+2][xTile+1]+""+mazeMap[yTileCenter+2][xTileCenter+2]);
+        System.out.println(mazeMap[yTileCenter+1][xTileCenter-1]+""+mazeMap[yTileCenter+1][xTileCenter]+""+mazeMap[yTileCenter+1][xTileCenter+1]+""+mazeMap[yTileCenter+1][xTileCenter+2]);
+        System.out.println(mazeMap[yTileCenter+2][xTileCenter-1]+""+mazeMap[yTileCenter+2][xTileCenter]+""+mazeMap[yTileCenter+2][xTileCenter+1]+""+mazeMap[yTileCenter+2][xTileCenter+2]);
         //System.out.println(mazeMap[yTileCenter+3][xTileCenter-1]+""+mazeMap[yTileCenter+3][xTileCenter]+""+mazeMap[yTileCenter+3][xTile+1]+""+mazeMap[yTileCenter+3][xTileCenter+2]);*/
 //        System.out.println("centro");
 //        System.out.println("\n position: ("+xTileCenter+";"+yTileCenter+")");
@@ -357,7 +359,7 @@ public class MsPacmanMap {
         }
 
         //imprimir posibles movimientos
-        /*for(int i=0; i<posibleMovements.length; i++){
+        for(int i=0; i<posibleMovements.length; i++){
         switch(posibleMovements[i]){
         case 1:{
         System.out.println("up");
@@ -394,7 +396,7 @@ public class MsPacmanMap {
     
     public static void main(String[] args) {
          setRatio(8);
-        int [] posibleMovements = consultPosibleMovements(14, 213, 1);
+        int [] posibleMovements = consultPosibleMovements(139, 238, 1);
     }
 
     /**
