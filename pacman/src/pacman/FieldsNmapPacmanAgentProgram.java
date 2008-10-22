@@ -24,7 +24,7 @@ public class FieldsNmapPacmanAgentProgram implements AgentProgram{
 
         /** Lenguaje para el actuador */
     Language language;
-    private int prevDirection;
+    private int prevDirection=2;
     private int prevActionCode[];
     
     private static final float pacmanCharge = 25.0f;
@@ -107,7 +107,8 @@ public class FieldsNmapPacmanAgentProgram implements AgentProgram{
                         
             // Calcular el vector de fuerza usando la "Ley de Coulomb"
             force = new Vector2D();
-            if(ghost.color != PacmanConstants.edibleGhost)
+            if(ghost.color == PacmanConstants.blinky || ghost.color == PacmanConstants.inky || ghost.color == PacmanConstants.pinky || ghost.color == PacmanConstants.sue)
+            //if(ghost.color != PacmanConstants.edibleGhost)
             {
                 force = unitVector.scalarMultiply((float)((pacmanCharge * ghostsCharge)/Math.pow(distance, 2)));
                 fleeVector = fleeVector.add(force);
@@ -213,35 +214,33 @@ public class FieldsNmapPacmanAgentProgram implements AgentProgram{
         }
         action = new Action(actionString);
         
-        if (!PacmanConstants.debug) System.out.println(action.getCode());
-        if (!PacmanConstants.debug) System.out.println("Pos:"+pacman.position);
+        if (PacmanConstants.debug) System.out.println(action.getCode());
+        if (PacmanConstants.debug) System.out.println("Pos:"+pacman.position);
         
         //prevActionCode[1] = prevActionCode[0];
         //prevActionCode[0] = actionCode;
         
         operationsCounter++;
         if( (java.lang.System.currentTimeMillis() - startTime) >= 1000){//si ya ha pasado un segundo
-            System.out.println(operationsCounter+" operaciones X seg");
-            operationsCounter = 0;
-            startTime = java.lang.System.currentTimeMillis();//traer la hora actual
+        System.out.println(operationsCounter+" operaciones X seg");
+        operationsCounter = 0;
+        startTime = java.lang.System.currentTimeMillis();//traer la hora actual
         }
-        
+        //System.out.println("dir: "+direction);
+//        return new Action("nop");
         return action;
     }
 
     private float getMovementOutcome(Vector2D force, int direction){
-        //componente normalizada - direccion 
-        //comprobar cada direccion, mirar si es horizontal o vertical
-        //sumarle o restarle cierta cantidad a la correspondiente componente
         Vector2D outcomeVector = new Vector2D();
         float comparation;
-        float mod = force.getModule()/2;
+        float restMod = force.getModule()/2;
         if(Math.abs(direction) == 1){
             comparation = force.getY();
-            outcomeVector.setY(comparation - direction*mod);
+            outcomeVector.setY(comparation - direction*restMod);// direction determines the sign
         }else if(Math.abs(direction) == 2){
             comparation = force.getX();
-            outcomeVector.setX(comparation - direction/2*mod);
+            outcomeVector.setX(comparation - direction/2*restMod);// direction determines the sign
         }
         return outcomeVector.getModule();
     }

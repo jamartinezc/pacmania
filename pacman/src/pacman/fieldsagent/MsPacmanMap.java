@@ -194,7 +194,7 @@ public class MsPacmanMap {
         
         switch(direction){
             case 1:{//UP
-                topPacmanLimit=4;
+                topPacmanLimit=8;
                 lowerPacmanLimit=3;
                 leftPacmanLimit=4;
                 rightPacmanLimit=5;
@@ -202,7 +202,7 @@ public class MsPacmanMap {
             }
             case -1:{//DOWN
                 topPacmanLimit=4;
-                lowerPacmanLimit=5;
+                lowerPacmanLimit=6;
                 leftPacmanLimit=4;
                 rightPacmanLimit=6;
                 break;
@@ -222,7 +222,11 @@ public class MsPacmanMap {
                 break;
             }
             default:{
-                throw new IllegalArgumentException("direction can only take the values: 1,-1,2,-2");
+                topPacmanLimit=4;
+                lowerPacmanLimit=4;
+                leftPacmanLimit=4;
+                rightPacmanLimit=4;
+                //throw new IllegalArgumentException("direction can only take the values: 1,-1,2,-2");
             }
         }
         
@@ -253,17 +257,16 @@ public class MsPacmanMap {
         MsPacmanTile left =new MsPacmanTile();
         MsPacmanTile right=new MsPacmanTile();
         MsPacmanTile tile=new MsPacmanTile();
-        int x = xParam;
-        int y = yParam - topBorder;
+        int x = xParam-1;
+        int y = yParam - topBorder-1;
         //int xTile,yTile;
         
         MsPacmanTile tileCenter = pix2tile(x, y);
 
         //set the upper tile
-        topPacmanLimit = 6;
+//        System.out.println("pix: "+x+","+(y-topPacmanLimit));
         tile = pix2tile(x, y-topPacmanLimit);
-        
-        if( (y-topPacmanLimit) < (tile.getY()*getRatio()-getRatio()/2)){//if the MsPacman excedes 50% of the tile
+        if( (y-topPacmanLimit) < (tile.getY()*getRatio()+4-getRatio()/2)){//if the MsPacman excedes 50% of the tile
             upper.setX(tile.getX());//set that tile as the MsPacman's upper tile
             upper.setY(tile.getY());
         }else{
@@ -274,9 +277,8 @@ public class MsPacmanMap {
 //        System.out.println(upper);
 
         //set the lower tile
-        lowerPacmanLimit = 3;
         tile = pix2tile(x, y+lowerPacmanLimit);
-        if( (y+lowerPacmanLimit) > (tile.getY()*getRatio()+getRatio()/2)){//if the MsPacman excedes 50% of the tile
+        if( (y+lowerPacmanLimit) > (tile.getY()*getRatio()+4+getRatio()/2)){//if the MsPacman excedes 50% of the tile
             lower.setX(tile.getX());//set that tile as the MsPacman's upper tile
             lower.setY(tile.getY());
         }else{
@@ -287,10 +289,9 @@ public class MsPacmanMap {
 //        System.out.println(lower);
         
         //set the right tile
-        rightPacmanLimit = 3;
         tile = pix2tile(x+rightPacmanLimit, y);
         //System.out.println(xTile);
-        if( (x-rightPacmanLimit) < (tile.getX()*getRatio()-getRatio()/2)){//if the MsPacman excedes 50% of the tile
+        if( (x-rightPacmanLimit) < (tile.getX()*getRatio()+4-getRatio()/2)){//if the MsPacman excedes 50% of the tile
             right.setX(tile.getX());//set that tile as the MsPacman's upper tile
             right.setY(tile.getY());
         }else{
@@ -302,10 +303,9 @@ public class MsPacmanMap {
 
         
         //set the left tile
-        leftPacmanLimit = 5;
         tile = pix2tile(x-leftPacmanLimit, y);
         //System.out.println(xTile);
-        if( (x+leftPacmanLimit) > (tile.getX()*getRatio()+getRatio()/2)){//if the MsPacman excedes 50% of the tile
+        if( (x+leftPacmanLimit) > (tile.getX()*getRatio()+4+getRatio()/2)){//if the MsPacman excedes 50% of the tile
             left.setX(tile.getX());//set that tile as the MsPacman's upper tile
             left.setY(tile.getY());
         }else{
@@ -323,13 +323,14 @@ public class MsPacmanMap {
         
         int yTileCenter = tileCenter.getY();
         int xTileCenter = tileCenter.getX();
-        /*System.out.println(mazeMap[yTileCenter-1][xTileCenter-1]+""+mazeMap[yTileCenter-1][xTileCenter]+""+mazeMap[yTileCenter-1][xTileCenter+1]+""+mazeMap[yTileCenter-1][xTileCenter+2]);
-        System.out.println(mazeMap[yTileCenter][xTileCenter-1]+""+mazeMap[yTileCenter][xTileCenter]+""+mazeMap[yTileCenter][xTileCenter+1]+""+mazeMap[yTileCenter][xTileCenter+2]);
+        /*System.out.println("\n\n\n\n\n");
+        System.out.println(mazeMap[yTileCenter-1][xTileCenter-1]+""+mazeMap[yTileCenter-1][xTileCenter]+""+mazeMap[yTileCenter-1][xTileCenter+1]+""+mazeMap[yTileCenter-1][xTileCenter+2]);
+        System.out.println(mazeMap[yTileCenter][xTileCenter-1]+"@"+mazeMap[yTileCenter][xTileCenter+1]+""+mazeMap[yTileCenter][xTileCenter+2]);
         System.out.println(mazeMap[yTileCenter+1][xTileCenter-1]+""+mazeMap[yTileCenter+1][xTileCenter]+""+mazeMap[yTileCenter+1][xTileCenter+1]+""+mazeMap[yTileCenter+1][xTileCenter+2]);
         System.out.println(mazeMap[yTileCenter+2][xTileCenter-1]+""+mazeMap[yTileCenter+2][xTileCenter]+""+mazeMap[yTileCenter+2][xTileCenter+1]+""+mazeMap[yTileCenter+2][xTileCenter+2]);
         //System.out.println(mazeMap[yTileCenter+3][xTileCenter-1]+""+mazeMap[yTileCenter+3][xTileCenter]+""+mazeMap[yTileCenter+3][xTile+1]+""+mazeMap[yTileCenter+3][xTileCenter+2]);*/
-//        System.out.println("centro");
-//        System.out.println("\n position: ("+(xTileCenter-1)+";"+(yTileCenter-1)+")");
+//        System.out.println("centro"+x+","+y);
+//        System.out.println("position: ("+(xTileCenter-1)+";"+(yTileCenter-1)+")");
         
         return surroundings;
     }
@@ -432,10 +433,11 @@ public class MsPacmanMap {
     }
 
     private static MsPacmanTile pix2tile(int x, int y){
+//        System.out.println("x,y: "+x+","+y);
         MsPacmanTile tile = new MsPacmanTile();
         tile.setX((int)((x - (getRatio() / 2f)) / getRatio())+1);
         tile.setY((int)((y - (getRatio() / 2f)) / getRatio())+1);
-        
+//        System.out.println("tile: "+tile.getX()+","+tile.getY());
         return tile;
     }
     
