@@ -177,15 +177,55 @@ public class MsPacmanMap {
      *      <li>3 if there is a power pill       </li>
      *      <li>4 if there is a ghost jail space</li>
      * </ul>
+     * @param direction pacman's direction, position depends on it's direction, this is needed for a bug workaround, it can only be 1, -1, 2, -2 (up. down, left, right)
      * @param x the x coordinate of the specified tile
      * @param y the y coordinate of the specified tile
      * @param maze the maze number, it can only be 1,2,3 or 4.
      * @throws java.lang.IllegalArgumentException if the maze number is not 1, 2, 3 or 4.
      * @return the list of the tiles (up,right,down,left)
      */
-    public static int[] consultSurroundings(int xParam, int yParam, int maze) throws IllegalArgumentException{
+    public static int[] consultSurroundings(int direction, int xParam, int yParam, int maze) throws IllegalArgumentException{
         int[][] mazeMap;
         int[] surroundings = new int[4];
+        int topPacmanLimit=0;
+        int lowerPacmanLimit=0;
+        int leftPacmanLimit=0;
+        int rightPacmanLimit=0;
+        
+        switch(direction){
+            case 1:{//UP
+                topPacmanLimit=4;
+                lowerPacmanLimit=3;
+                leftPacmanLimit=4;
+                rightPacmanLimit=5;
+                break;
+            }
+            case -1:{//DOWN
+                topPacmanLimit=4;
+                lowerPacmanLimit=5;
+                leftPacmanLimit=4;
+                rightPacmanLimit=6;
+                break;
+            }
+            case 2:{//LEFT
+                topPacmanLimit=7;
+                lowerPacmanLimit=3;
+                leftPacmanLimit=6;
+                rightPacmanLimit=3;
+                break;
+            }
+            case -2:{//RIGHT
+                topPacmanLimit=4;
+                lowerPacmanLimit=4;
+                leftPacmanLimit=4;
+                rightPacmanLimit=4;
+                break;
+            }
+            default:{
+                throw new IllegalArgumentException("direction can only take the values: 1,-1,2,-2");
+            }
+        }
+        
         switch(maze){
             case 1:{
                 mazeMap=maze1;
@@ -220,9 +260,10 @@ public class MsPacmanMap {
         MsPacmanTile tileCenter = pix2tile(x, y);
 
         //set the upper tile
-        tile = pix2tile(x, y-(getPacSize()/2));
+        topPacmanLimit = 6;
+        tile = pix2tile(x, y-topPacmanLimit);
         
-        if( (y-getPacSize()/2) < (tile.getY()*getRatio()-getRatio()/2)){//if the MsPacman excedes 50% of the tile
+        if( (y-topPacmanLimit) < (tile.getY()*getRatio()-getRatio()/2)){//if the MsPacman excedes 50% of the tile
             upper.setX(tile.getX());//set that tile as the MsPacman's upper tile
             upper.setY(tile.getY());
         }else{
@@ -233,8 +274,9 @@ public class MsPacmanMap {
 //        System.out.println(upper);
 
         //set the lower tile
-        tile = pix2tile(x, y+(getPacSize()/2));
-        if( (y+getPacSize()/2) > (tile.getY()*getRatio()+getRatio()/2)){//if the MsPacman excedes 50% of the tile
+        lowerPacmanLimit = 3;
+        tile = pix2tile(x, y+lowerPacmanLimit);
+        if( (y+lowerPacmanLimit) > (tile.getY()*getRatio()+getRatio()/2)){//if the MsPacman excedes 50% of the tile
             lower.setX(tile.getX());//set that tile as the MsPacman's upper tile
             lower.setY(tile.getY());
         }else{
@@ -245,9 +287,10 @@ public class MsPacmanMap {
 //        System.out.println(lower);
         
         //set the right tile
-        tile = pix2tile(x+(getPacSize()/2), y);
+        rightPacmanLimit = 3;
+        tile = pix2tile(x+rightPacmanLimit, y);
         //System.out.println(xTile);
-        if( (x-(getPacSize())/2) < (tile.getX()*getRatio()-getRatio()/2)){//if the MsPacman excedes 50% of the tile
+        if( (x-rightPacmanLimit) < (tile.getX()*getRatio()-getRatio()/2)){//if the MsPacman excedes 50% of the tile
             right.setX(tile.getX());//set that tile as the MsPacman's upper tile
             right.setY(tile.getY());
         }else{
@@ -259,9 +302,10 @@ public class MsPacmanMap {
 
         
         //set the left tile
-        tile = pix2tile(x-(getPacSize()/2), y);
+        leftPacmanLimit = 5;
+        tile = pix2tile(x-leftPacmanLimit, y);
         //System.out.println(xTile);
-        if( (x+getPacSize()/2) > (tile.getX()*getRatio()+getRatio()/2)){//if the MsPacman excedes 50% of the tile
+        if( (x+leftPacmanLimit) > (tile.getX()*getRatio()+getRatio()/2)){//if the MsPacman excedes 50% of the tile
             left.setX(tile.getX());//set that tile as the MsPacman's upper tile
             left.setY(tile.getY());
         }else{
@@ -272,26 +316,27 @@ public class MsPacmanMap {
 //        System.out.println(left);
         
         //up, down, left and right
-        surroundings[0] = mazeMap[upper.getY()+1 - 1][upper.getX()+1];
-        surroundings[1] = mazeMap[lower.getY()+1 + 1][lower.getX()+1];
-        surroundings[2] = mazeMap[left.getY()+1][left.getX()+1 - 1];
-        surroundings[3] = mazeMap[right.getY()+1][right.getX()+1 + 1];
+        surroundings[0] = mazeMap[upper.getY() - 1][upper.getX()];
+        surroundings[1] = mazeMap[lower.getY() + 1][lower.getX()];
+        surroundings[2] = mazeMap[left.getY()][left.getX() - 1];
+        surroundings[3] = mazeMap[right.getY()][right.getX() + 1];
         
-        int yTileCenter = tileCenter.getY()+1;
-        int xTileCenter = tileCenter.getX()+1;
-        System.out.println(mazeMap[yTileCenter-1][xTileCenter-1]+""+mazeMap[yTileCenter-1][xTileCenter]+""+mazeMap[yTileCenter-1][xTileCenter+1]+""+mazeMap[yTileCenter-1][xTileCenter+2]);
+        int yTileCenter = tileCenter.getY();
+        int xTileCenter = tileCenter.getX();
+        /*System.out.println(mazeMap[yTileCenter-1][xTileCenter-1]+""+mazeMap[yTileCenter-1][xTileCenter]+""+mazeMap[yTileCenter-1][xTileCenter+1]+""+mazeMap[yTileCenter-1][xTileCenter+2]);
         System.out.println(mazeMap[yTileCenter][xTileCenter-1]+""+mazeMap[yTileCenter][xTileCenter]+""+mazeMap[yTileCenter][xTileCenter+1]+""+mazeMap[yTileCenter][xTileCenter+2]);
         System.out.println(mazeMap[yTileCenter+1][xTileCenter-1]+""+mazeMap[yTileCenter+1][xTileCenter]+""+mazeMap[yTileCenter+1][xTileCenter+1]+""+mazeMap[yTileCenter+1][xTileCenter+2]);
         System.out.println(mazeMap[yTileCenter+2][xTileCenter-1]+""+mazeMap[yTileCenter+2][xTileCenter]+""+mazeMap[yTileCenter+2][xTileCenter+1]+""+mazeMap[yTileCenter+2][xTileCenter+2]);
         //System.out.println(mazeMap[yTileCenter+3][xTileCenter-1]+""+mazeMap[yTileCenter+3][xTileCenter]+""+mazeMap[yTileCenter+3][xTile+1]+""+mazeMap[yTileCenter+3][xTileCenter+2]);*/
 //        System.out.println("centro");
-//        System.out.println("\n position: ("+xTileCenter+";"+yTileCenter+")");
+//        System.out.println("\n position: ("+(xTileCenter-1)+";"+(yTileCenter-1)+")");
         
         return surroundings;
     }
     
     /**
      * 
+     * @param direction pacman's direction, position depends on it's direction, this is needed for a bug workaround, it can only be 1, -1, 2, -2 (up. down, left, right)
      * @param x the x coordinate of the specified tile
      * @param y the y coordinate of the specified tile
      * @param maze the maze number, it can only be 1,2,3 or 4.
@@ -306,7 +351,7 @@ public class MsPacmanMap {
      *      <li>an empty list if there are not spaces to move to.</li>
      * </ul>
      */
-    public static int[] consultPosibleMovements(int x, int y, int maze) throws IllegalArgumentException{
+    public static int[] consultPosibleMovements(int direction, int x, int y, int maze) throws IllegalArgumentException{
         int up=1;
         int down=-1;
         int left=2;
@@ -318,7 +363,7 @@ public class MsPacmanMap {
         int movementsCount=0;
         int j;
 
-        surroundingTiles = consultSurroundings(x, y, maze);
+        surroundingTiles = consultSurroundings(direction, x, y, maze);
         
         
         if( surroundingTiles[0] != 1 ){
@@ -359,7 +404,7 @@ public class MsPacmanMap {
         }
 
         //imprimir posibles movimientos
-        for(int i=0; i<posibleMovements.length; i++){
+        /*for(int i=0; i<posibleMovements.length; i++){
         switch(posibleMovements[i]){
         case 1:{
         System.out.println("up");
@@ -388,15 +433,15 @@ public class MsPacmanMap {
 
     private static MsPacmanTile pix2tile(int x, int y){
         MsPacmanTile tile = new MsPacmanTile();
-        tile.setX((int)((x - (getRatio() / 2f)) / getRatio()));
-        tile.setY((int)((y - (getRatio() / 2f)) / getRatio()));
+        tile.setX((int)((x - (getRatio() / 2f)) / getRatio())+1);
+        tile.setY((int)((y - (getRatio() / 2f)) / getRatio())+1);
         
         return tile;
     }
     
     public static void main(String[] args) {
          setRatio(8);
-        int [] posibleMovements = consultPosibleMovements(139, 238, 1);
+        int [] posibleMovements = consultPosibleMovements(1, 207, 215, 1);
     }
 
     /**

@@ -24,7 +24,7 @@ public class FieldsNmapPacmanAgentProgram implements AgentProgram{
 
         /** Lenguaje para el actuador */
     Language language;
-    private Point prevPosition;
+    private int prevDirection;
     private int prevActionCode[];
     
     private static final float pacmanCharge = 25.0f;
@@ -40,7 +40,6 @@ public class FieldsNmapPacmanAgentProgram implements AgentProgram{
     {
         // Inicializa los atributos de la clase
         language = new PacmanLanguage();
-        prevPosition = new Point(0, 0);
         operationsCounter = 0;
         startTime = 0L;
         prevActionCode = new int[2];//memoria de dos operaciones anteriores
@@ -183,7 +182,7 @@ public class FieldsNmapPacmanAgentProgram implements AgentProgram{
             return new Action("nop");
         }
         //System.out.println("pos: "+pacman.position);
-        int[] posibleMovements = MsPacmanMap.consultPosibleMovements(x, y, board);
+        int[] posibleMovements = MsPacmanMap.consultPosibleMovements(prevDirection, x, y, board);
         
         //verify for each posible movement the outcome for that movement
         // and set the movement with the highest outcome.
@@ -203,7 +202,7 @@ public class FieldsNmapPacmanAgentProgram implements AgentProgram{
             }
         }
         
-        //prevPosition = new Point(pacman.position.x,pacman.position.y);
+        prevDirection = direction;
         switch(direction){
             case  1: { actionString="up"; break;}
             case -1: { actionString="down"; break;}
