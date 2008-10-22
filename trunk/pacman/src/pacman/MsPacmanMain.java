@@ -16,7 +16,7 @@ public class MsPacmanMain {
         //quiere mostrar o no el visor d imgs
         boolean display = true;
 
-        AgentProgram agent_program = new FieldsNmapPacmanAgentProgram();
+        AgentProgram agent_program = new FieldsPacmanAgentProgram();
 
         PacmanEnvironment env = new PacmanEnvironment( agent_program );
         env.setDelay(delay);

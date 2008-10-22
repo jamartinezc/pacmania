@@ -114,7 +114,9 @@ public class FieldsPacmanAgentProgram implements AgentProgram{
                         
             // Calcular el vector de fuerza usando la "Ley de Coulomb"
             force = new Vector2D();
-            if(ghost.color != PacmanConstants.edibleGhost)
+            if(ghost.color == PacmanConstants.blinky || ghost.color == PacmanConstants.inky || ghost.color == PacmanConstants.pinky || ghost.color == PacmanConstants.sue)
+            //if(ghost.color != PacmanConstants.edibleGhost)
+            //if(ghost.dangerous)
             {
                 force = unitVector.scalarMultiply((float)((pacmanCharge * ghostsCharge)/Math.pow(distance, 2)));
                 fleeVector = fleeVector.add(force);
