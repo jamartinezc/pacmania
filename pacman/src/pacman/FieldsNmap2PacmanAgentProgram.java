@@ -29,7 +29,7 @@ public class FieldsNmap2PacmanAgentProgram implements AgentProgram{
     
     private static final float pacmanCharge = 25.0f;
     private static final float ghostsCharge = 50.0f;
-    private static final float pillsCharge = -4.0f;// >30
+    private static final float pillsCharge = -1.0f;// >30
     private static final float powerPillsCharge = -300.0f;
     private static final float ghostsHunger = 3.0f;//
 
@@ -87,7 +87,7 @@ public class FieldsNmap2PacmanAgentProgram implements AgentProgram{
         pills = (Vector<Pill>)p.getAttribute("pills");
             // si quedan menos de 30 pills, su carga aumenta
             if(pills.size()<=10) resolution = 40;
-            else if(pills.size()<=35) resolution = 8;
+            else if(pills.size()<=50) resolution = 8;
         
         if(ghosts == null || pacman == null)
             return new Action("nop");
@@ -107,7 +107,7 @@ public class FieldsNmap2PacmanAgentProgram implements AgentProgram{
                         
             // Calcular el vector de fuerza usando la "Ley de Coulomb"
             force = new Vector2D();
-            if( (distance<=70) && !(ghost.gridPosition.x > 10 && ghost.gridPosition.x < 17 && ghost.gridPosition.y > 12 && ghost.gridPosition.y < 16)){//treshold 70: determina la distancia a la que le importa al pacman que estén los fantasmas, ademas verifica que el fantasma no se encuentre en la jaula
+            if(  !(ghost.gridPosition.x > 10 && ghost.gridPosition.x < 17 && ghost.gridPosition.y > 12 && ghost.gridPosition.y < 16)){//treshold 70: determina la distancia a la que le importa al pacman que estén los fantasmas, ademas verifica que el fantasma no se encuentre en la jaula  (distance<=80) &&
                 if(ghost.color == PacmanConstants.blinky || ghost.color == PacmanConstants.inky || ghost.color == PacmanConstants.pinky || ghost.color == PacmanConstants.sue)
                 //if(ghost.color != PacmanConstants.edibleGhost)
                 {
@@ -243,7 +243,7 @@ public class FieldsNmap2PacmanAgentProgram implements AgentProgram{
 
         }else if(Math.abs(direction) == 2){
 
-            outcome = -direction * force.getX();// direction determines the sign
+            outcome = -direction/2 * force.getX();// direction determines the sign
             
         }
         return outcome;
