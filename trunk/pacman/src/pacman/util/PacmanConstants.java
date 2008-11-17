@@ -75,11 +75,11 @@ public class PacmanConstants {
   /**
    * Left position of the MsPacman board
    */
-  public static final int left = 220;
+  public static final int left = 222;
   /**
    * Top position of the MsPacman board
    */
-  public static final int top = 222;
+  public static final int top = 252;
   /**
    * Width of the MsPacman board
    */
