@@ -142,7 +142,7 @@ public class FieldsNmap2PacmanAgentProgram implements AgentProgram{
                         
             // Calcular el vector de fuerza usando la "Ley de Coulomb"
             force = new Vector2D();
-            if(  !(ghost.gridPosition.x > 10 && ghost.gridPosition.x < 17 && ghost.gridPosition.y > 12 && ghost.gridPosition.y < 16) && (distance <=70)){//treshold 70: determina la distancia a la que le importa al pacman que estén los fantasmas, ademas verifica que el fantasma no se encuentre en la jaula  (distance<=80) &&
+            if(  !(ghost.gridPosition.x > 10 && ghost.gridPosition.x < 17 && ghost.gridPosition.y > 12 && ghost.gridPosition.y < 16) && (distance <=100)){//treshold 70: determina la distancia a la que le importa al pacman que estén los fantasmas, ademas verifica que el fantasma no se encuentre en la jaula  (distance<=80) &&
                 if(ghost.color == PacmanConstants.blinky || ghost.color == PacmanConstants.inky || ghost.color == PacmanConstants.pinky || ghost.color == PacmanConstants.sue)
                 //if(ghost.color != PacmanConstants.edibleGhost)
                 {
@@ -332,10 +332,10 @@ public class FieldsNmap2PacmanAgentProgram implements AgentProgram{
         
         switch(direction){
             // direction determines the sign of outcome
-            case  1: { outcome=-direction   * force.getY()+ (-direction * force.getY()*0.1f)*upPreferece; break;}
-            case -1: { outcome=-direction   * force.getY() + (-direction * force.getY()*0.1f)*downPreferece; break;}
-            case  2: { outcome=-direction/2 * force.getX() + (-direction * force.getX()*0.1f)*leftPreferece; break;}
-            case -2: { outcome=-direction/2 * force.getX() + (-direction * force.getX()*0.1f)*rightPreferece; break;}
+            case  1: { outcome=-direction   * force.getY()+ (-direction  * force.getY()*0.55f)*upPreferece; break;}
+            case -1: { outcome=-direction   * force.getY() + (-direction * force.getY()*0.55f)*downPreferece; break;}
+            case  2: { outcome=-direction/2 * force.getX() + (-direction * force.getX()*0.55f)*leftPreferece; break;}
+            case -2: { outcome=-direction/2 * force.getX() + (-direction * force.getX()*0.55f)*rightPreferece; break;}
             default://case 0
                      {outcome=Float.MIN_VALUE;}
         }
