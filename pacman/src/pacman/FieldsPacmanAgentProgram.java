@@ -8,7 +8,7 @@ package pacman;
 import java.awt.Point;
 import java.util.Vector;
 
-import pacman.fieldsagent.Vector2D;
+import pacman.fieldsagent.Vector2Df;
 
 import pacman.object.Ghost;
 import pacman.object.MsPacman;
@@ -67,18 +67,18 @@ public class FieldsPacmanAgentProgram implements AgentProgram{
         Pill pill;
         int resolution = 1;//determines the MsPacman's desire to conclude the world
         int disinterest = 1;//determines the MsPacman's interest in PowerPills
-        Vector2D fleeVector = new Vector2D(0,0);//it's used to determine if the ghost are near
+        Vector2Df fleeVector = new Vector2Df(0,0);//it's used to determine if the ghost are near
         Action action;
-        Vector2D force;
+        Vector2Df force;
         MsPacman pacman;
         float distance;
-        Vector2D resultant;
-        Vector2D unitVector;
+        Vector2Df resultant;
+        Vector2Df unitVector;
         String actionString;
         Vector<Ghost> ghosts;
         Vector<PowerPill> pPills;
         Vector<Pill> pills;
-        Vector<Vector2D> forces;
+        Vector<Vector2Df> forces;
         
         // Obtener la posición de los fantasmas
         ghosts = (Vector<Ghost>)p.getAttribute("ghosts");
@@ -100,20 +100,20 @@ public class FieldsPacmanAgentProgram implements AgentProgram{
             return new Action("nop");
         
         // Computar el vector de fuerza para cada fantasma
-        forces = new Vector<Vector2D>();
+        forces = new Vector<Vector2Df>();
         n = ghosts.size();
         
         for(i = 0; i < n; i++)
         {
             // Calcular un vector unitario en la dirección fantasma-pacman
             ghost = ghosts.get(i);
-            unitVector = new Vector2D(pacman.position.x - ghost.position.x, pacman.position.y - ghost.position.y);
+            unitVector = new Vector2Df(pacman.position.x - ghost.position.x, pacman.position.y - ghost.position.y);
             distance = unitVector.getModule();
             
             unitVector = unitVector.toUnitVector();
                         
             // Calcular el vector de fuerza usando la "Ley de Coulomb"
-            force = new Vector2D();
+            force = new Vector2Df();
             if(ghost.color == PacmanConstants.blinky || ghost.color == PacmanConstants.inky || ghost.color == PacmanConstants.pinky || ghost.color == PacmanConstants.sue)
             //if(ghost.color != PacmanConstants.edibleGhost)
             //if(ghost.dangerous)
@@ -137,13 +137,13 @@ public class FieldsPacmanAgentProgram implements AgentProgram{
         for(i=0;i<n;i++){
             // Calcular un vector unitario en la dirección PowerPill-pacman
             pPill = pPills.get(i);
-            unitVector = new Vector2D(pacman.position.x - pPill.position.x, pacman.position.y - pPill.position.y);
+            unitVector = new Vector2Df(pacman.position.x - pPill.position.x, pacman.position.y - pPill.position.y);
             distance = unitVector.getModule();
             
             unitVector = unitVector.toUnitVector();
                         
             // Calcular el vector de fuerza usando la "Ley de Coulomb"
-            force = new Vector2D();
+            force = new Vector2Df();
             force = unitVector.scalarMultiply((float)((pacmanCharge * powerPillsCharge / disinterest)/Math.pow(distance, 2)));
             forces.add(force);
         }
@@ -153,20 +153,20 @@ public class FieldsPacmanAgentProgram implements AgentProgram{
         for(i=0;i<n;i++){
             // Calcular un vector unitario en la dirección PowerPill-pacman
             pill = pills.get(i);
-            unitVector = new Vector2D(pacman.position.x - pill.position.x, pacman.position.y - pill.position.y);
+            unitVector = new Vector2Df(pacman.position.x - pill.position.x, pacman.position.y - pill.position.y);
             distance = unitVector.getModule();
             
             unitVector = unitVector.toUnitVector();
                         
             // Calcular el vector de fuerza usando la "Ley de Coulomb"
-            force = new Vector2D();
+            force = new Vector2Df();
             force = unitVector.scalarMultiply((float)((pacmanCharge * pillsCharge * resolution)/Math.pow(distance, 2)));
             forces.add(force);
         }
         
         // Computar la suma vectorial de las fuerzas
         n=pPills.size() + ghosts.size() + pills.size();
-        resultant = new Vector2D();
+        resultant = new Vector2Df();
         for(i = 0; i < n; i++)
         {
             resultant = resultant.add(forces.get(i));

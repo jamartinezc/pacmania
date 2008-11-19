@@ -9,16 +9,16 @@ package pacman.fieldsagent;
  *
  *  @author Sergio Bobillier Ceballos
  */
-public class Vector2D
+public class Vector2Df
 {
     /** Coordenada x del vector */
-    private double x;
+    private float x;
     
     /** Cordenada y del vector */
-    private double y;
+    private float y;
     
     /** Constructora sin parámetros. Crea el vector (0, 0) */
-    public Vector2D()
+    public Vector2Df()
     {
         this.x = 0;
         this.y = 0;
@@ -30,7 +30,7 @@ public class Vector2D
      *  @param y La coordenada y del vector
      */
     
-    public Vector2D(double x, double y)
+    public Vector2Df(float x, float y)
     {
         this.x = x;
         this.y = y;
@@ -42,10 +42,10 @@ public class Vector2D
      * @return El vector resultante.
      */
     
-    public Vector2D add(Vector2D vector)
+    public Vector2Df add(Vector2Df vector)
     {
-        Vector2D result;
-        result = new Vector2D();
+        Vector2Df result;
+        result = new Vector2Df();
         result.setX(this.x + vector.x);
         result.setY(this.y + vector.y);
         return result;
@@ -70,10 +70,10 @@ public class Vector2D
      *  @return Un valor flotante, el módulo del vector.
      */
     
-    public double getModule()
+    public float getModule()
     {
-        double module;
-        module = (double)Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        float module;
+        module = (float)Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         return module;
     }
         
@@ -82,14 +82,14 @@ public class Vector2D
      *  @return La coordenada x del vector.
      */
     
-    public double getX() { return x; }
+    public float getX() { return x; }
     
     /** Devuelve la coordenada y del vector.
      * 
      * @return. La coordenada y del vector.
      */
     
-    public double getY() { return y; }
+    public float getY() { return y; }
     
     /** Devuelve una representación del vector en forma de cadena de caracteres
      * 
@@ -116,14 +116,14 @@ public class Vector2D
      *      dirección de este vector.
      */
     
-    public Vector2D toUnitVector()
+    public Vector2Df toUnitVector()
     {
-        Vector2D unitVector;
-        double module;
+        Vector2Df unitVector;
+        float module;
         
         module = this.getModule();
         
-        unitVector = new Vector2D();
+        unitVector = new Vector2Df();
         unitVector.setX(this.x/module);
         unitVector.setY(this.y/module);
 
@@ -137,10 +137,10 @@ public class Vector2D
      * @return El vector resultante.
      */
     
-    public Vector2D scalarMultiply(double f)
+    public Vector2Df scalarMultiply(float f)
     {
-        Vector2D result;
-        result = new Vector2D();
+        Vector2Df result;
+        result = new Vector2Df();
         result.setX(this.x * f);
         result.setY(this.y * f);
         return result;
@@ -151,13 +151,13 @@ public class Vector2D
      *  @param x La coordenada x del vector.
      */
     
-    public void setX(double x) { this.x = x; }
+    public void setX(float x) { this.x = x; }
     
     /** Establece la coordenada y del vector.
      * 
      *  @param y La coordenada y del vector.
      */
     
-    public void setY(double y) { this.y = y; }
+    public void setY(float y) { this.y = y; }
 
 }
